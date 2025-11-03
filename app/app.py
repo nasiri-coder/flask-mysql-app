@@ -4,7 +4,6 @@ from flask import Flask
 
 app = Flask(__name__)
 
-# Lecture des variables d'environnement
 DB_HOST = os.getenv("DB_HOST", "db")
 DB_PORT = int(os.getenv("DB_PORT", 3306))
 DB_USER = os.getenv("DB_USER", "root")
