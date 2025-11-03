@@ -4,7 +4,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-DB_HOST = os.getenv("DB_HOST", "db")
+DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
 DB_PORT = int(os.getenv("DB_PORT", 3306))
 DB_USER = os.getenv("DB_USER", "root")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "root")
@@ -28,6 +28,3 @@ def index():
     cursor.close()
     db.close()
     return f"Users : {data}"
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)

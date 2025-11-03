@@ -37,18 +37,15 @@ jobs:
         run: |
           pip install -r app/requirements.txt
 
-      - name: Wait for MySQL to be ready
+      - name: Wait for MySQL
         run: |
-          echo "Waiting for MySQL service..."
           for i in {1..20}; do
             mysql -h 127.0.0.1 -P 3306 -u root -proot -e "SELECT 1;" && break
-            echo "MySQL not ready yet..."
             sleep 3
           done
 
       - name: Initialize database
-        run: |
-          mysql -h 127.0.0.1 -P 3306 -u root -proot < db/init.sql
+        run: mysql -h 127.0.0.1 -P 3306 -u root -proot < db/init.sql
 
       - name: Run tests
         env:
@@ -57,5 +54,5 @@ jobs:
           DB_USER: root
           DB_PASSWORD: root
           DB_NAME: flaskdb
-        run: |
-          pytest app/test_app.py
+        run: pytest app/test_app.py
+
