@@ -2,10 +2,10 @@ services:
   web:
     build: .
     ports:
-      - "5001:5000"   # Flask sur port 5000 du conteneur, exposé sur 5001 local
+      - "5000:5000"
     environment:
-      DB_HOST: db
-      DB_PORT: 3306
+      DB_HOST: db       # Service MySQL
+      DB_PORT: 3306     # Port interne du conteneur MySQL
       DB_USER: root
       DB_PASSWORD: root
       DB_NAME: flaskdb
@@ -14,11 +14,10 @@ services:
 
   db:
     image: mysql:8
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: flaskdb
     ports:
-      - "3307:3306"   # MySQL exposé sur 3307 local
+      - "3307:3306"     # Pour accès depuis ta machine locale (optionnel)
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
