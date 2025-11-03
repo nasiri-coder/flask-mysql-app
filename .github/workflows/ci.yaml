@@ -68,15 +68,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: nasiricoder26/flask-app:latest
-          # optionally add multiple tags, platforms, cache if desired
-          # platforms: linux/amd64,linux/arm64
+      - name: Build Docker image
+        run: |
+          docker build -t nasiricoder26/flask-app:latest .
 
-      - name: Image pushed - show image
-        run: echo "Image pushed: nasiricoder26/flask-app:latest"
+      - name: Push Docker image
+        run: |
+          docker push nasiricoder26/flask-app:latest
 
