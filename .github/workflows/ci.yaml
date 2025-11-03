@@ -43,10 +43,11 @@ jobs:
 
       - name: Tests unitaires
         env:
-          DB_HOST: 127.0.0.1
+          DB_HOST: 127.0.0.1    # MySQL service Actions
           DB_USER: root
           DB_PASSWORD: root
           DB_NAME: flaskdb
+          DB_PORT: 3306         # port du service GitHub Actions
         run: |
           cd app
           pytest
