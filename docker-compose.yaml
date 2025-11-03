@@ -20,6 +20,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: flaskdb
     ports:
-      - "3307:3306"
+      - "3307:3306"  # Port pour accéder à la DB depuis l'extérieur si besoin
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql

@@ -3,10 +3,13 @@ name: CI Flask MySQL
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     services:
       mysql:
         image: mysql:8
@@ -14,7 +17,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: flaskdb
         ports:
-          - 3307:3306
+          - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
@@ -33,10 +36,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r app/requirements.txt
 
+      - name: Initialize MySQL
+        run: |
+          echo "Waiting for MySQL service..."
+          sleep 15
+          mysql -h 127.0.0.1 -P 3306 -u root -proot < db/init.sql
+
       - name: Run tests
         env:
           DB_HOST: 127.0.0.1
-          DB_PORT: 3307
+          DB_PORT: 3306
           DB_USER: root
           DB_PASSWORD: root
           DB_NAME: flaskdb
