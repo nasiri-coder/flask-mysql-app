@@ -1,10 +1,8 @@
-version: "3.8"
-
 services:
   web:
     build: .
     ports:
-      - "5000:5000"
+      - "5001:5000"   # Flask sur port 5000 du conteneur, exposé sur 5001 local
     environment:
       DB_HOST: db
       DB_PORT: 3306
@@ -16,10 +14,11 @@ services:
 
   db:
     image: mysql:8
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: flaskdb
     ports:
-      - "3307:3306"  # Port pour accéder à la DB depuis l'extérieur si besoin
+      - "3307:3306"   # MySQL exposé sur 3307 local
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
