@@ -55,4 +55,28 @@ jobs:
           DB_PASSWORD: root
           DB_NAME: flaskdb
         run: pytest app/test_app.py
+    # only if tests passed we continue to build and push the image
+      - name: Set up QEMU (for cross-platform build)
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: nasiricoder26/flask-app:latest
+          # optionally add multiple tags, platforms, cache if desired
+          # platforms: linux/amd64,linux/arm64
+
+      - name: Image pushed - show image
+        run: echo "Image pushed: nasiricoder26/flask-app:latest"
 
